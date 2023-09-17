@@ -22,7 +22,7 @@ export default class Algorithm {
         return sum / array.length
     }
 
-    static async #getEstimationOfVariance(array, m) {
+    static async #getEstimationOfDispersion(array, m) {
         const tmp = array.map((X) => {
             return Math.pow((X - m), 2);
         })
@@ -33,11 +33,68 @@ export default class Algorithm {
     static async estimation(generatedXArray) {
         const estimationResult = {
             estimationOfMathExpectation: 0,
-            estimationOfVariance: 0
+            estimationOfDispersion: 0,
+            estimationOfDeviation: 0,
         }
         estimationResult.estimationOfMathExpectation = await this.#getEstimationOfMathExpectation(generatedXArray);
-        estimationResult.estimationOfVariance = await this.#getEstimationOfVariance(generatedXArray, estimationResult.estimationOfMathExpectation);
+        estimationResult.estimationOfDispersion = await this.#getEstimationOfDispersion(generatedXArray, estimationResult.estimationOfMathExpectation);
+        estimationResult.estimationOfDeviation = Math.sqrt(estimationResult.estimationOfDispersion);
         return estimationResult;
+    }
+
+    static async inderectSigns(array) {
+        let K = 0;
+        let i = 0;
+        await array.forEach((el) => {
+            if ((Math.pow(array[2 * i - 1], 2) + Math.pow(array[2 * i], 2)) < 1) {
+                K++;
+            }
+            i++;
+        })
+        return {
+            first: Math.PI / 4,
+            second: 2 * K / array.length
+        }
+    }
+
+    static async #period(array) {
+        const res = {
+            i1: 0,
+            i2: 0,
+        }
+        let i = 0;
+        await array.forEach((el) => {
+            if ((el === array[array.length]) && (i != array.length - 1)) {
+                if (res.i1 === 0) {
+                    res.i1 = i
+                    console.log(el);
+                } else if (res.i2 === 0) {
+                    res.i2 = i;
+                    console.log(el);
+                }
+            }
+            i++;
+        })
+        return res.i2 - res.i1;
+    }
+
+    static async #findPiar(array, newArr) {
+        let res = 0;
+        await array.forEach((el) => {
+            if (newArr.includes(el)) {
+                res = newArr.indexOf(el);
+            }
+        })
+        return res;
+    }
+
+    static async periodAndAperiodicLength(array) {
+        const P = await this.#period(array);
+        console.log(P)
+        // const newArr = await this.generator(125566, 200000, 276128, P);
+        // const i3 = await this.#findPiar(array, newArr);
+        // const L = i3 + P;
+        // console.log({ P, L })
     }
 
     static async histogram(generatedArray) {
