@@ -1,0 +1,25 @@
+.estimation-container div{
+    display: inline-block;
+    justify-content: space-between;
+}
+.estimation-container {
+    margin-top: 20px;
+    padding-left: 35%;
+    padding-right: 35%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.estimation-container div div{
+    background-color: rgb(196, 221, 244);
+    display: block;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: medium;
+    width: fit-content;
+}
+
+.estimation-container div label {
+    color: rgb(0, 0, 0);
+    font-size: larger;
+}

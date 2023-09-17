@@ -1,0 +1,38 @@
+.input-container div {
+    display: inline-block;
+    justify-content: space-between;
+}
+
+.input-container {
+    margin-top: 1%;
+    padding-left: 20%;
+    padding-right: 20%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.input-container div input {
+    display: block;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: medium;
+    border: none;
+    outline: none;
+}
+
+.input-container div label {
+    margin-left: 20px;
+    color: rgb(0, 0, 0);
+    font-size: larger;
+}
+
+.input-container div button {
+    font-size: large;
+    margin-top: 10%;
+    border-radius: 10px;
+    border: 10px;
+}
+
+.input-container div button:active {
+    transform: translateY(3px);
+}
