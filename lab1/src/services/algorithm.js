@@ -58,43 +58,37 @@ export default class Algorithm {
     }
 
     static async #period(array) {
-        const res = {
-            i1: 0,
-            i2: 0,
-        }
-        let i = 0;
-        await array.forEach((el) => {
-            if ((el === array[array.length]) && (i != array.length - 1)) {
-                if (res.i1 === 0) {
-                    res.i1 = i
-                    console.log(el);
-                } else if (res.i2 === 0) {
-                    res.i2 = i;
-                    console.log(el);
+        const XV = array[array.length - 1];
+        let i1 = 0, i2 = 0, i = 0;
+        for (i = 0; i < array.length; i++) {
+            if (array[i] === XV) {
+                if (i1 === 0) {
+                    i1 = i;
+                    i++;
+                } else if (i2 === 0) {
+                    i2 = i;
+                    break;
                 }
             }
-            i++;
-        })
-        return res.i2 - res.i1;
+
+        }
+        return i2 - i1;
     }
 
-    static async #findPiar(array, newArr) {
-        let res = 0;
-        await array.forEach((el) => {
-            if (newArr.includes(el)) {
-                res = newArr.indexOf(el);
-            }
-        })
-        return res;
-    }
-
-    static async periodAndAperiodicLength(array) {
+    static async periodAndAperiodicLength(array, inputData) {
         const P = await this.#period(array);
-        console.log(P)
-        // const newArr = await this.generator(125566, 200000, 276128, P);
-        // const i3 = await this.#findPiar(array, newArr);
-        // const L = i3 + P;
-        // console.log({ P, L })
+        const newArray = await this.generator(inputData.a, inputData.n, inputData.m, array[P]);
+        let i3 = 0;
+        for (let i = 0; i < newArray.length; i++) {
+            if (newArray[i] === newArray[i + P]) {
+                i3 = i;
+                break;
+            }
+        }
+        return {
+            P: P,
+            L: P + i3
+        }
     }
 
     static async histogram(generatedArray) {

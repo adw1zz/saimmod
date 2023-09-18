@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "../styles/estimation.scss"
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Algorithm from "../services/algorithm";
 
 const Estimation = () => {
-    const dispatch = useDispatch();
     const xArray = useSelector(state => state.generator.generatedArray);
-    const [estValues, setEstValues] = useState({ estM: 1, estD: 1, estDv: 1, fisrt: 1, second: 1 })
+    const input = useSelector(state => state.generator.input);
+    const [estValues, setEstValues] = useState({ estM: 1, estD: 1, estDv: 1, fisrt: 1, second: 1, P: 1, L: 1 })
 
     const getEstimation = async (array) => {
         const res = await Algorithm.estimation(array);
         const res2 = await Algorithm.inderectSigns(array);
-        await Algorithm.periodAndAperiodicLength(array);
-        dispatch({ type: "SET_ESTIMATION", payload: { ...res } })
+        const LP = await Algorithm.periodAndAperiodicLength(array, input);
         setEstValues({
             estM: res.estimationOfMathExpectation,
             estD: res.estimationOfDispersion,
             estDv: res.estimationOfDeviation,
             fisrt: res2.first,
-            second: res2.second
+            second: res2.second,
+            P: LP.P,
+            L: LP.L
         });
     }
 
@@ -48,6 +49,15 @@ const Estimation = () => {
                 <div>{String(estValues.second)}</div>
                 <label>2*K/PI</label>
             </div>
+            <div>
+                <div>{String(estValues.P)}</div>
+                <label>P</label>
+            </div>
+            <div>
+                <div>{String(estValues.L)}</div>
+                <label>L</label>
+            </div>
+
         </div>
     )
 }

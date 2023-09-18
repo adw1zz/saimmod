@@ -15,6 +15,8 @@ const Input = () => {
     }
 
     const buttonHandle = async (e) => {
+        e.stopPropagation();
+        dispatch({ type: 'SET_INPUT_DATA', payload: { ...values } })
         const res = await Algorithm.generator(values.a, values.n, values.m, values.Rinp)
         console.log("--Generated X array--");
         console.log(res);

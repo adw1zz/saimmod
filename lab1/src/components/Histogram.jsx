@@ -25,13 +25,11 @@ const Histogram = () => {
                 Xnum: array[i - 1]
             })
         }
-        console.log(res);
         setData(res);
     }
 
     const getRanges = async (xArray) => {
         const res = await Algorithm.histogram(xArray);
-        console.log(res);
         parseData(res);
     }
 
